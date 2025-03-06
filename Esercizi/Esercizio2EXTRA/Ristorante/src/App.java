@@ -57,7 +57,6 @@ class DatabaseOperations {
         try (Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(selectUserSQL);
             while (rs.next()) {
-                int id = rs.getInt("id");
                 String nome = rs.getString("nome");
                 String email = rs.getString("email");
                 System.out.println("Nome: " + nome + ", Email: " + email);
