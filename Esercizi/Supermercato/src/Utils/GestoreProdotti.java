@@ -1,6 +1,12 @@
+package Utils;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import Models.Abbigliamento;
+import Models.Alimentare;
+import Models.Elettronico;
+import Models.Prodotto;
 
 public class GestoreProdotti {
 

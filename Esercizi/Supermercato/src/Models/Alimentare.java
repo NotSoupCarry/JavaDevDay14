@@ -1,5 +1,8 @@
+package Models;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import Interfaces.IScontabile;
 
 public class Alimentare extends Prodotto implements IScontabile {
     private Date dataScadenza;

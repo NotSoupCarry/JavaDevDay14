@@ -1,5 +1,8 @@
+package Models;
 import java.util.Calendar;
 import java.util.Date;
+
+import Interfaces.IGarantibile;
 
 public class Elettronico extends Prodotto implements IGarantibile {
     private int mesiGaranzia;

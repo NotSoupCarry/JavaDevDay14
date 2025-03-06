@@ -1,3 +1,6 @@
+package Models;
+import Interfaces.IProdotto;
+
 public abstract class Prodotto implements IProdotto {
     protected String codice;
     protected String nome;

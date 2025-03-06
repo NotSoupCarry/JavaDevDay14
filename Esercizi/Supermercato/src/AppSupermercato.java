@@ -1,6 +1,12 @@
 import java.util.Date;
 import java.util.Scanner;
 
+import Models.Abbigliamento;
+import Models.Alimentare;
+import Models.Elettronico;
+import Utils.Controlli;
+import Utils.GestoreProdotti;
+
 public class AppSupermercato {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);

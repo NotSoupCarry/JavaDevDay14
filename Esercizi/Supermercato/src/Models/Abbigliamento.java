@@ -1,3 +1,6 @@
+package Models;
+import Interfaces.IRestituibile;
+
 public class Abbigliamento extends Prodotto implements IRestituibile {
     private String taglia;
     private String materiale;
