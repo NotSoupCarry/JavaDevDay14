@@ -82,6 +82,7 @@ class GestoreVeicoli {
     // Metodo per aggiungere un veicolo alla lista
     public void aggiungiVeicolo(Veicolo veicolo) {
         listaVeicoli.add(veicolo);
+        System.out.println("\nVEICOLO AGGIUNTO CON SUCCESSO!!");
     }
 
     // Metodo per mostrare i dettagli di tutti i veicoli
@@ -100,7 +101,7 @@ class GestoreVeicoli {
         List<Veicolo> veicoliPiuVecchi = new ArrayList<>();
 
         if (listaVeicoli.isEmpty()) {
-            return veicoliPiuVecchi; // Ritorna una lista vuota se non ci sono veicoli
+            return veicoliPiuVecchi; 
         }
 
         // Trova l'anno di produzione più vecchio
@@ -213,13 +214,21 @@ class Menu {
 
     // Metodo che mostra il sottomenu per scegliere il tipo di veicolo
     private void menuSceltaVeicolo() {
-        System.out.println("\nSeleziona il tipo di veicolo:");
-        System.out.println("1 Automobile");
-        System.out.println("2 Moto");
-        System.out.println("3 Camion");
-        System.out.print("Scelta: ");
-        int tipoVeicolo = Controlli.controlloInputInteri(scanner);
-        scanner.nextLine();
+        int tipoVeicolo;
+        while (true) {
+            System.out.println("\nSeleziona il tipo di veicolo:");
+            System.out.println("1 Automobile");
+            System.out.println("2 Moto");
+            System.out.println("3 Camion");
+            System.out.print("Scelta: ");
+            tipoVeicolo = Controlli.controlloInputInteri(scanner);
+            scanner.nextLine();
+    
+            if (tipoVeicolo >= 1 && tipoVeicolo <= 3) {
+                break; // Se il valore è valido, esce dal ciclo
+            }
+            System.out.println("Errore: scelta non valida! Inserisci un numero tra 1 e 3.");
+        }
 
         System.out.print("Inserisci la marca: ");
         String marca = Controlli.controlloInputStringhe(scanner);
