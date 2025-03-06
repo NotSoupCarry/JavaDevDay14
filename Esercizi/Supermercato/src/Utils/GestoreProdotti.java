@@ -1,4 +1,5 @@
 package Utils;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,28 +119,21 @@ public class GestoreProdotti {
                 // Creiamo un oggetto Alimentare con i dati ottenuti dalla query
                 Alimentare alimentare = new Alimentare(codice, nome, prezzo, dataScadenza);
 
-                // Calcoliamo lo sconto e lo aggiungiamo all'oggetto
+                // Calcoliamo lo sconto
                 double sconto = alimentare.calcolaSconto();
 
                 // Se lo sconto è maggiore di 0, aggiungiamo il prodotto alla lista
                 if (sconto > 0) {
-                    alimentariInScadenza.add(alimentare);
+                    double prezzoScontato = prezzo - sconto; // Prezzo finale dopo lo sconto
+                    System.out.println("Prodotto: " + alimentare.getNome() + ", " + alimentare.getNome() + ", Prezzo originale: " + prezzo +
+                            ", Sconto applicato: " + sconto + ", Prezzo scontato: " + prezzoScontato);
+                    alimentariInScadenza.add(alimentare); // Aggiungiamo alla lista
                 }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        if (alimentariInScadenza != null && !alimentariInScadenza.isEmpty()) {
-            System.out.println("ALIMENTI IN SCONTO: ");
-            for (Alimentare alimentoInScadenza : alimentariInScadenza) {
-                System.out.println(alimentoInScadenza.getDettagli());
-            }
-        } else {
-            System.out.println("Nessun Alimento in scadenza");
-        }
-
     }
 
 }
