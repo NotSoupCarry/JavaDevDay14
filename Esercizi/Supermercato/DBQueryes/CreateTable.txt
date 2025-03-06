@@ -1,0 +1,29 @@
+CREATE DATABASE IF NOT EXISTS supermercato;
+use supermercato;
+
+CREATE TABLE Prodotto (
+    codice VARCHAR(50) PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    prezzo DECIMAL(10,2) NOT NULL,
+    tipo ENUM('Alimentare', 'Elettronico', 'Abbigliamento') NOT NULL
+);
+
+
+CREATE TABLE Alimentare (
+    codice VARCHAR(50) PRIMARY KEY,
+    data_scadenza DATE NOT NULL,
+    FOREIGN KEY (codice) REFERENCES Prodotto(codice) ON DELETE CASCADE
+);
+
+CREATE TABLE Elettronico (
+    codice VARCHAR(50) PRIMARY KEY,
+    mesi_garanzia INT NOT NULL,
+    FOREIGN KEY (codice) REFERENCES Prodotto(codice) ON DELETE CASCADE
+);
+
+CREATE TABLE Abbigliamento (
+    codice VARCHAR(50) PRIMARY KEY,
+    taglia VARCHAR(10) NOT NULL,
+    materiale VARCHAR(50) NOT NULL,
+    FOREIGN KEY (codice) REFERENCES Prodotto(codice) ON DELETE CASCADE
+);
