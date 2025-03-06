@@ -1,0 +1,20 @@
+CREATE DATABASE IF NOT EXISTS ristoranteappdb;
+
+USE ristoranteappdb;
+
+-- Tabella per gli utenti
+CREATE TABLE IF NOT EXISTS utenti (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE
+);
+
+-- Tabella per le ordinazioni
+CREATE TABLE IF NOT EXISTS ordinazioni (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    piatto VARCHAR(255) NOT NULL,
+    prezzo DECIMAL(10,2) NOT NULL,
+    data_ordinazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES utenti(id)
+);
