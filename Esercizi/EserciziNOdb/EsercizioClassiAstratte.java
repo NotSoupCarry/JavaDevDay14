@@ -154,69 +154,32 @@ class Controlli {
     }
 }
 
-// Classe Main per testare il codice
-public class EsercizioClassiAstratte {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        GestoreVeicoli gestore = new GestoreVeicoli();
+// Classe per i menu
+class Menu {
+    private GestoreVeicoli gestore;
+    private Scanner scanner;
 
+    public Menu() {
+        this.gestore = new GestoreVeicoli();
+        this.scanner = new Scanner(System.in);
+    }
+
+    // Metodo principale che mostra il menu principale
+    public void menuPrincipale() {
         while (true) {
             System.out.println("\n===== MENU GESTIONE VEICOLI =====");
             System.out.println("1 Aggiungi un veicolo");
             System.out.println("2 Mostra tutti i veicoli");
             System.out.println("3 Trova i veicoli più vecchi");
             System.out.println("4 Esci");
-            System.out.print(" Scegli un'opzione: ");
+            System.out.print("Scegli un'opzione: ");
 
             int scelta = Controlli.controlloInputInteri(scanner);
-            scanner.nextLine(); // Consuma il newline
+            scanner.nextLine(); 
 
             switch (scelta) {
                 case 1:
-                    System.out.println("\nSeleziona il tipo di veicolo:");
-                    System.out.println("1 Automobile");
-                    System.out.println("2 Moto");
-                    System.out.println("3 Camion");
-                    System.out.print("Scelta: ");
-                    int tipoVeicolo = Controlli.controlloInputInteri(scanner);
-                    scanner.nextLine();
-
-                    System.out.print("Inserisci la marca: ");
-                    String marca = Controlli.controlloInputStringhe(scanner);
-                    System.out.print("Inserisci il modello: ");
-                    String modello = Controlli.controlloInputStringhe(scanner);
-                    System.out.print("Inserisci l'anno di produzione: ");
-                    int annoProduzione = Controlli.controlloInputInteri(scanner);
-                    scanner.nextLine();
-
-                    if (tipoVeicolo == 1) {
-                        System.out.print("Numero di porte: ");
-                        int numeroPorte = Controlli.controlloInputInteri(scanner);
-                        scanner.nextLine();
-                        System.out.print("Tipo di carburante: ");
-                        String carburante = Controlli.controlloInputStringhe(scanner);
-                        gestore.aggiungiVeicolo(
-                                new Automobile(marca, modello, annoProduzione, numeroPorte, carburante));
-
-                    } else if (tipoVeicolo == 2) {
-                        System.out.print("Tipologia: ");
-                        String tipologia = Controlli.controlloInputStringhe(scanner);
-                        System.out.print("Cilindrata (cc): ");
-                        int cilindrata = Controlli.controlloInputInteri(scanner);
-                        scanner.nextLine();
-                        gestore.aggiungiVeicolo(new Moto(marca, modello, annoProduzione, tipologia, cilindrata));
-
-                    } else if (tipoVeicolo == 3) {
-                        System.out.print("Capacità di carico (tonnellate): ");
-                        double capacitaCarico = scanner.nextDouble();
-                        System.out.print("Numero di assi: ");
-                        int numeroAssi = Controlli.controlloInputInteri(scanner);
-                        scanner.nextLine();
-                        gestore.aggiungiVeicolo(new Camion(marca, modello, annoProduzione, capacitaCarico, numeroAssi));
-
-                    } else {
-                        System.out.println("Scelta non valida!");
-                    }
+                    menuSceltaVeicolo();
                     break;
 
                 case 2:
@@ -226,7 +189,7 @@ public class EsercizioClassiAstratte {
 
                 case 3:
                     List<Veicolo> veicoliVecchi = gestore.trovaVeicoliPiuVecchi();
-                    if (!veicoliVecchi.isEmpty()) {                        
+                    if (!veicoliVecchi.isEmpty()) {
                         System.out.println("\nI veicoli più vecchi sono dell'anno: " + veicoliVecchi.get(0).getAnnoProduzione());
                         for (Veicolo v : veicoliVecchi) {
                             v.mostraDettagli();
@@ -246,5 +209,65 @@ public class EsercizioClassiAstratte {
                     break;
             }
         }
+    }
+
+    // Metodo che mostra il sottomenu per scegliere il tipo di veicolo
+    private void menuSceltaVeicolo() {
+        System.out.println("\nSeleziona il tipo di veicolo:");
+        System.out.println("1 Automobile");
+        System.out.println("2 Moto");
+        System.out.println("3 Camion");
+        System.out.print("Scelta: ");
+        int tipoVeicolo = Controlli.controlloInputInteri(scanner);
+        scanner.nextLine();
+
+        System.out.print("Inserisci la marca: ");
+        String marca = Controlli.controlloInputStringhe(scanner);
+        System.out.print("Inserisci il modello: ");
+        String modello = Controlli.controlloInputStringhe(scanner);
+        System.out.print("Inserisci l'anno di produzione: ");
+        int annoProduzione = Controlli.controlloInputInteri(scanner);
+        scanner.nextLine();
+
+        switch (tipoVeicolo) {
+            case 1:
+                System.out.print("Numero di porte: ");
+                int numeroPorte = Controlli.controlloInputInteri(scanner);
+                scanner.nextLine();
+                System.out.print("Tipo di carburante: ");
+                String carburante = Controlli.controlloInputStringhe(scanner);
+                gestore.aggiungiVeicolo(new Automobile(marca, modello, annoProduzione, numeroPorte, carburante));
+                break;
+
+            case 2:
+                System.out.print("Tipologia: ");
+                String tipologia = Controlli.controlloInputStringhe(scanner);
+                System.out.print("Cilindrata (cc): ");
+                int cilindrata = Controlli.controlloInputInteri(scanner);
+                scanner.nextLine();
+                gestore.aggiungiVeicolo(new Moto(marca, modello, annoProduzione, tipologia, cilindrata));
+                break;
+
+            case 3:
+                System.out.print("Capacità di carico (tonnellate): ");
+                double capacitaCarico = scanner.nextDouble();
+                System.out.print("Numero di assi: ");
+                int numeroAssi = Controlli.controlloInputInteri(scanner);
+                scanner.nextLine();
+                gestore.aggiungiVeicolo(new Camion(marca, modello, annoProduzione, capacitaCarico, numeroAssi));
+                break;
+
+            default:
+                System.out.println("Scelta non valida!");
+                break;
+        }
+    }
+}
+
+// ##CLASSE MAIN
+public class EsercizioClassiAstratte {
+    public static void main(String[] args) {
+        Menu menu = new Menu();
+        menu.menuPrincipale();
     }
 }
