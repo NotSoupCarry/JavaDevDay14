@@ -2,9 +2,9 @@ package Models;
 import java.util.Calendar;
 import java.util.Date;
 
-import Interfaces.IGarantibile;
+import Interfaces.IRestituibile;
 
-public class Elettronico extends Prodotto implements IGarantibile {
+public class Elettronico extends Prodotto implements IRestituibile  {
     private int mesiGaranzia;
     private Date dataAcquisto;
 
@@ -19,7 +19,8 @@ public class Elettronico extends Prodotto implements IGarantibile {
     }
 
     @Override
-    public boolean inGaranzia() {
+    public boolean èRestituibile() {
+        // Verifica che la data di acquisto sia entro il periodo di garanzia
         Calendar cal = Calendar.getInstance();
         cal.setTime(dataAcquisto);
         cal.add(Calendar.MONTH, mesiGaranzia);
@@ -28,6 +29,6 @@ public class Elettronico extends Prodotto implements IGarantibile {
 
     @Override
     public String getDettagli() {
-        return "Elettronico [Codice: " + codice + ", Nome: " + nome + ", Prezzo: " + prezzo + "€, Garanzia: " + mesiGaranzia + " mesi, In garanzia: " + (inGaranzia() ? "Sì" : "No") + "]";
+        return "Elettronico [Codice: " + codice + ", Nome: " + nome + ", Prezzo: " + prezzo + "€, Garanzia: " + mesiGaranzia + " mesi, In garanzia: " + (èRestituibile() ? "Sì" : "No") + "]";
     }
 }
