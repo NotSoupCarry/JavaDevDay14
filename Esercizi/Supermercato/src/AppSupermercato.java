@@ -24,7 +24,7 @@ public class AppSupermercato {
             scanner.nextLine();
 
             switch (scelta) {
-                case 1:
+                case 1: //Aggiungi Prodotto
                     System.out.print("Codice: ");
                     String codice = gestore.controlloCodiceUnico(scanner);
                     System.out.print("Nome: ");
@@ -53,18 +53,18 @@ public class AppSupermercato {
                         gestore.aggiungiProdotto(new Abbigliamento(codice, nome, prezzo, taglia, materiale));
                     }
                     break;
-                case 2:
+                case 2: // Mostra prodotti
                     gestore.mostraTuttiProdotti();
                     break;
-                case 3:
+                case 3: // Rimuovi un prodotto
                     System.out.print("Inserisci codice del prodotto da eliminare: ");
                     String cod = Controlli.controlloInputStringhe(scanner);
                     gestore.rimuoviProdotto(cod);
                     break;
-                case 4:
+                case 4: // Sconto su alimentari
                     gestore.calcolaScontoAlimentariInScadenza();
                     break;
-                case 5:
+                case 5: // Esci
                     System.out.println("Chiusura del programma.");
                     exitMainMenu = true;
                     return;
