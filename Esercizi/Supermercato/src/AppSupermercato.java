@@ -30,7 +30,7 @@ public class AppSupermercato {
                     System.out.print("Codice: ");
                     String codice = gestore.controlloCodiceUnico(scanner);
                     System.out.print("Nome: ");
-                    String nome = Controlli.controlloInputStringhe(scanner);
+                    String nome = gestore.controlloNomeProdottoUnico(scanner);
                     System.out.print("Prezzo: ");
                     double prezzo = Controlli.controlloInputDouble(scanner);
                     scanner.nextLine();

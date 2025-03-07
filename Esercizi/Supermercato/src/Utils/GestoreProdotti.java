@@ -11,7 +11,65 @@ import Models.Elettronico;
 import Models.Prodotto;
 
 public class GestoreProdotti {
+    // controllo che il codice inserito sia unico
+    public String controlloCodiceUnico(Scanner scanner) {
+        String codice;
 
+        while (true) {
+            codice = Controlli.controlloInputStringhe(scanner).trim();
+
+            String sql = "SELECT COUNT(*) FROM Prodotto WHERE codice = ?";
+
+            try (Connection conn = DBContext.connessioneDatabase();
+                    PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                stmt.setString(1, codice);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next() && rs.getInt(1) > 0) {
+                    System.out.print("Errore: Il codice \"" + codice
+                            + "\" esiste già nel database.\nInserisci un codice diverso: ");
+                } else {
+                    return codice; // Il codice è valido, lo restituiamo
+                }
+
+            } catch (SQLException e) {
+                System.out.println("Errore durante la verifica del codice nel database.");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // controllo che il nome del prodotto inserito sia unico
+    public String controlloNomeProdottoUnico(Scanner scanner) {
+        String nome;
+
+        while (true) {
+            nome = Controlli.controlloInputStringhe(scanner).trim();
+
+            String sql = "SELECT COUNT(*) FROM Prodotto WHERE nome = ?";
+
+            try (Connection conn = DBContext.connessioneDatabase();
+                    PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                stmt.setString(1, nome);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next() && rs.getInt(1) > 0) {
+                    System.out.print("Errore: Il nome \"" + nome
+                            + "\" esiste già per un altro prodotto.\nInserisci un nome diverso: ");
+                } else {
+                    return nome; // Il nome è valido, lo restituiamo
+                }
+
+            } catch (SQLException e) {
+                System.out.println("Errore durante la verifica del codice nel database.");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // metodo per aggiungere un prodotto
     public void aggiungiProdotto(Prodotto prodotto) {
         Connection conn = DBContext.connessioneDatabase();
         if (conn == null)
@@ -54,6 +112,7 @@ public class GestoreProdotti {
         }
     }
 
+    // metodo per mostare tutti i prodotti
     public void mostraTuttiProdotti() {
         Connection conn = DBContext.connessioneDatabase();
         if (conn == null)
@@ -111,6 +170,7 @@ public class GestoreProdotti {
         }
     }
 
+    // metodo per rimuovere un prodotto
     public void rimuoviProdotto(String codice) {
         Connection conn = DBContext.connessioneDatabase();
         if (conn == null)
@@ -132,6 +192,7 @@ public class GestoreProdotti {
         }
     }
 
+    // metodo per calcolare lo sconto su un alimentare
     public void calcolaScontoAlimentariInScadenza() {
         List<Alimentare> alimentariInScadenza = new ArrayList<>();
 
@@ -172,34 +233,7 @@ public class GestoreProdotti {
         }
     }
 
-    public String controlloCodiceUnico(Scanner scanner) {
-        String codice;
-
-        while (true) {
-            codice = Controlli.controlloInputStringhe(scanner).trim();
-
-            String sql = "SELECT COUNT(*) FROM Prodotto WHERE codice = ?";
-
-            try (Connection conn = DBContext.connessioneDatabase();
-                    PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-                stmt.setString(1, codice);
-                ResultSet rs = stmt.executeQuery();
-
-                if (rs.next() && rs.getInt(1) > 0) {
-                    System.out.print("Errore: Il codice \"" + codice
-                            + "\" esiste già nel database.\nInserisci un codice diverso: ");
-                } else {
-                    return codice; // Il codice è valido, lo restituiamo
-                }
-
-            } catch (SQLException e) {
-                System.out.println("Errore durante la verifica del codice nel database.");
-                e.printStackTrace();
-            }
-        }
-    }
-
+    // metodo per comprare un prodotto
     public void compraProdotto(Scanner scanner, String nomeProdotto) {
         String sqlVerifica = "SELECT codice FROM Prodotto WHERE nome = ? AND data_acquisto IS NULL";
         String sqlAcquisto = "UPDATE Prodotto SET data_acquisto = ? WHERE codice = ?";
@@ -237,6 +271,7 @@ public class GestoreProdotti {
         }
     }
 
+    // metodo per mostrare tutti i prodotti acquistati
     public void mostraProdottiAcquistati() {
         Connection conn = DBContext.connessioneDatabase();
         if (conn == null)
