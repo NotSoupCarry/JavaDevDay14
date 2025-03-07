@@ -36,7 +36,7 @@ public class Alimentare extends Prodotto implements IScontabile {
     @Override
     public String getDettagli() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return "Alimentare [Codice: " + codice + ", Nome: " + nome + ", Prezzo: " + getPrezzo() + "€, Scadenza: "
+        return "Alimentare [Codice: " + codice + ", Nome: " + nome + ", Prezzo: " + getPrezzo() + " euro, Scadenza: "
                 + sdf.format(dataScadenza) + "]";
     }
 }

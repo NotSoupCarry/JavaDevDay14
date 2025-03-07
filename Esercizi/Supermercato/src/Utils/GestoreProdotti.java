@@ -58,8 +58,16 @@ public class GestoreProdotti {
         if (conn == null)
             return;
 
+        List<Prodotto> prodotti = new ArrayList<>();
+
         try {
-            String sql = "SELECT * FROM Prodotto";
+            String sql = "SELECT p.codice, p.nome, p.prezzo, p.tipo, " +
+                    "a.data_scadenza, e.mesi_garanzia, ab.taglia, ab.materiale " +
+                    "FROM Prodotto p " +
+                    "LEFT JOIN Alimentare a ON p.codice = a.codice " +
+                    "LEFT JOIN Elettronico e ON p.codice = e.codice " +
+                    "LEFT JOIN Abbigliamento ab ON p.codice = ab.codice";
+
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -68,11 +76,37 @@ public class GestoreProdotti {
                 String nome = rs.getString("nome");
                 double prezzo = rs.getDouble("prezzo");
                 String tipo = rs.getString("tipo");
-                System.out.println(
-                        "Codice: " + codice + " | Nome: " + nome + " | Prezzo: " + prezzo + " euro | Tipo: " + tipo);
+
+                Prodotto prodotto = null;
+
+                if ("Alimentare".equals(tipo)) {
+                    Date dataScadenza = rs.getDate("data_scadenza");
+                    prodotto = new Alimentare(codice, nome, prezzo, dataScadenza);
+                } else if ("Elettronico".equals(tipo)) {
+                    int mesiGaranzia = rs.getInt("mesi_garanzia");
+                    prodotto = new Elettronico(codice, nome, prezzo, mesiGaranzia);
+                } else if ("Abbigliamento".equals(tipo)) {
+                    String taglia = rs.getString("taglia");
+                    String materiale = rs.getString("materiale");
+                    prodotto = new Abbigliamento(codice, nome, prezzo, taglia, materiale);
+                }
+
+                if (prodotto != null) {
+                    prodotti.add(prodotto);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        // Stampa i dettagli di ogni prodotto
+        if (!prodotti.isEmpty()) {
+            System.out.println("\n===== LISTA PRODOTTI =====");
+            for (Prodotto prodotto : prodotti) {
+                System.out.println(prodotto.getDettagli());
+            }
+        } else {
+            System.out.println("Nessun prodotto disponibile.");
         }
     }
 
@@ -125,7 +159,8 @@ public class GestoreProdotti {
                 // Se lo sconto è maggiore di 0, aggiungiamo il prodotto alla lista
                 if (sconto > 0) {
                     double prezzoScontato = prezzo - sconto; // Prezzo finale dopo lo sconto
-                    System.out.println("Prodotto: " + alimentare.getNome() + ", " + alimentare.getNome() + ", Prezzo originale: " + prezzo +
+                    System.out.println("Prodotto: " + alimentare.getNome()
+                            + ", Prezzo originale: " + prezzo +
                             ", Sconto applicato: " + sconto + ", Prezzo scontato: " + prezzoScontato);
                     alimentariInScadenza.add(alimentare); // Aggiungiamo alla lista
                 }
@@ -135,5 +170,4 @@ public class GestoreProdotti {
             e.printStackTrace();
         }
     }
-
 }

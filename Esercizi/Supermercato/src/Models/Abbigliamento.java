@@ -32,6 +32,6 @@ public class Abbigliamento extends Prodotto implements IRestituibile {
 
     @Override
     public String getDettagli() {
-        return "Abbigliamento [Codice: " + codice + ", Nome: " + nome + ", Prezzo: " + prezzo + "€, Taglia: " + taglia + ", Materiale: " + materiale + ", Restituibile: " + (èRestituibile() ? "Sì" : "No") + "]";
+        return "Abbigliamento [Codice: " + codice + ", Nome: " + nome + ", Prezzo: " + prezzo + " euro, Taglia: " + taglia + ", Materiale: " + materiale + ", Restituibile: " + (èRestituibile() ? "Sì" : "No") + "]";
     }
 }
