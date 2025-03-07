@@ -200,4 +200,95 @@ public class GestoreProdotti {
         }
     }
 
+    public void compraProdotto(Scanner scanner, String nomeProdotto) {
+        String sqlVerifica = "SELECT codice FROM Prodotto WHERE nome = ? AND data_acquisto IS NULL";
+        String sqlAcquisto = "UPDATE Prodotto SET data_acquisto = ? WHERE codice = ?";
+
+        try (Connection conn = DBContext.connessioneDatabase();
+                PreparedStatement stmtVerifica = conn.prepareStatement(sqlVerifica)) {
+
+            stmtVerifica.setString(1, nomeProdotto);
+            ResultSet rs = stmtVerifica.executeQuery();
+
+            if (!rs.next()) {
+                System.out.println("Errore: Prodotto non disponibile o già acquistato.");
+                return;
+            }
+
+            String codiceProdotto = rs.getString("codice");
+            java.util.Date oggi = new java.util.Date();
+            java.sql.Date dataAcquistoSQL = new java.sql.Date(oggi.getTime());
+
+            try (PreparedStatement stmtAcquisto = conn.prepareStatement(sqlAcquisto)) {
+                stmtAcquisto.setDate(1, dataAcquistoSQL);
+                stmtAcquisto.setString(2, codiceProdotto);
+                int aggiornati = stmtAcquisto.executeUpdate();
+
+                if (aggiornati > 0) {
+                    System.out.println("Prodotto acquistato con successo! Data acquisto: " + dataAcquistoSQL);
+                } else {
+                    System.out.println("Errore durante l'acquisto del prodotto.");
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Errore durante il processo di acquisto.");
+            e.printStackTrace();
+        }
+    }
+
+    public void mostraProdottiAcquistati() {
+        Connection conn = DBContext.connessioneDatabase();
+        if (conn == null)
+            return;
+
+        List<Prodotto> prodottiAcquistati = new ArrayList<>();
+
+        try {
+            String sql = "SELECT p.codice, p.nome, p.prezzo, p.tipo, p.data_acquisto, " +
+                    "a.data_scadenza, e.mesi_garanzia, ab.taglia, ab.materiale " +
+                    "FROM Prodotto p " +
+                    "LEFT JOIN Alimentare a ON p.codice = a.codice " +
+                    "LEFT JOIN Elettronico e ON p.codice = e.codice " +
+                    "LEFT JOIN Abbigliamento ab ON p.codice = ab.codice " +
+                    "WHERE p.data_acquisto IS NOT NULL";
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                String codice = rs.getString("codice");
+                String nome = rs.getString("nome");
+                double prezzo = rs.getDouble("prezzo");
+                String tipo = rs.getString("tipo");
+                Date dataAcquisto = rs.getDate("data_acquisto");
+
+                Prodotto prodotto = null;
+
+                if ("Alimentare".equals(tipo)) {
+                    Date dataScadenza = rs.getDate("data_scadenza");
+                    prodotto = new Alimentare(codice, nome, prezzo, dataScadenza);
+                } else if ("Elettronico".equals(tipo)) {
+                    int mesiGaranzia = rs.getInt("mesi_garanzia");
+                    prodotto = new Elettronico(codice, nome, prezzo, mesiGaranzia);
+                } else if ("Abbigliamento".equals(tipo)) {
+                    String taglia = rs.getString("taglia");
+                    String materiale = rs.getString("materiale");
+                    prodotto = new Abbigliamento(codice, nome, prezzo, taglia, materiale);
+                }
+
+                if (prodotto != null) {
+                    System.out.println(prodotto.getDettagli() + ", Data Acquisto: " + dataAcquisto);
+                    prodottiAcquistati.add(prodotto);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (prodottiAcquistati.isEmpty()) {
+            System.out.println("Nessun prodotto acquistato.");
+        }
+    }
+
 }

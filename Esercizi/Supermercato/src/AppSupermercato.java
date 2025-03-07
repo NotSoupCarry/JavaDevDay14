@@ -18,13 +18,15 @@ public class AppSupermercato {
             System.out.println("2. Mostra tutti i prodotti");
             System.out.println("3. Rimuovi un prodotto");
             System.out.println("4. Calcola sconto per prodotti alimentari in scadenza");
-            System.out.println("5. Esci");
+            System.out.println("5 Compra un prodotto");
+            System.out.println("6. Mostra tutti i prodotti Acquistati");
+            System.out.println("7. Esci");
             System.out.print("Scelta: ");
             int scelta = scanner.nextInt();
             scanner.nextLine();
 
             switch (scelta) {
-                case 1: //Aggiungi Prodotto
+                case 1: // Aggiungi Prodotto
                     System.out.print("Codice: ");
                     String codice = gestore.controlloCodiceUnico(scanner);
                     System.out.print("Nome: ");
@@ -64,7 +66,15 @@ public class AppSupermercato {
                 case 4: // Sconto su alimentari
                     gestore.calcolaScontoAlimentariInScadenza();
                     break;
-                case 5: // Esci
+                case 5: // Compra un prodotto
+                    System.out.print("Inserisci il nome del prodotto da acquistare: ");
+                    String nomeProdotto = scanner.nextLine().trim();
+                    gestore.compraProdotto(scanner, nomeProdotto);
+                    break;
+                case 6: // Mostra prodotti acquistati
+                    gestore.mostraProdottiAcquistati();
+                    break;
+                case 7: // Esci
                     System.out.println("Chiusura del programma.");
                     exitMainMenu = true;
                     return;

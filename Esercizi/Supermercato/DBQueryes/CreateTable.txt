@@ -5,7 +5,8 @@ CREATE TABLE Prodotto (
     codice VARCHAR(50) PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     prezzo DECIMAL(10,2) NOT NULL,
-    tipo ENUM('Alimentare', 'Elettronico', 'Abbigliamento') NOT NULL
+    tipo ENUM('Alimentare', 'Elettronico', 'Abbigliamento') NOT NULL,
+    data_acquisto DATA NULL
 );
 
 

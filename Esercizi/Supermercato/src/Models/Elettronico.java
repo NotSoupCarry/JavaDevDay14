@@ -9,7 +9,7 @@ public class Elettronico extends Prodotto implements IGarantibile {
     private Date dataAcquisto;
 
     public Elettronico(String codice, String nome, double prezzo, int mesiGaranzia) {
-        super(codice, nome, prezzo);
+        super(codice, nome, prezzo, null);
         this.mesiGaranzia = mesiGaranzia;
         this.dataAcquisto = new Date(); 
     }

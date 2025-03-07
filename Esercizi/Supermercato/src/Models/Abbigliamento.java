@@ -7,7 +7,7 @@ public class Abbigliamento extends Prodotto implements IRestituibile {
     private boolean provato;
 
     public Abbigliamento(String codice, String nome, double prezzo, String taglia, String materiale) {
-        super(codice, nome, prezzo);
+        super(codice, nome, prezzo, null);
         this.taglia = taglia;
         this.materiale = materiale;
         this.provato = false;

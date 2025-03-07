@@ -8,7 +8,7 @@ public class Alimentare extends Prodotto implements IScontabile {
     private Date dataScadenza;
 
     public Alimentare(String codice, String nome, double prezzo, Date dataScadenza) {
-        super(codice, nome, prezzo);
+        super(codice, nome, prezzo, null);
         this.dataScadenza = dataScadenza;
     }
 
