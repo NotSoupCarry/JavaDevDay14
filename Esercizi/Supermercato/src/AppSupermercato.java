@@ -26,7 +26,7 @@ public class AppSupermercato {
             switch (scelta) {
                 case 1:
                     System.out.print("Codice: ");
-                    String codice = Controlli.controlloInputStringhe(scanner);
+                    String codice = gestore.controlloCodiceUnico(scanner);
                     System.out.print("Nome: ");
                     String nome = Controlli.controlloInputStringhe(scanner);
                     System.out.print("Prezzo: ");

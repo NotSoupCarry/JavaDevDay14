@@ -3,6 +3,7 @@ package Utils;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import Models.Abbigliamento;
 import Models.Alimentare;
@@ -170,4 +171,33 @@ public class GestoreProdotti {
             e.printStackTrace();
         }
     }
+
+    public String controlloCodiceUnico(Scanner scanner) {
+        String codice;
+
+        while (true) {
+            codice = Controlli.controlloInputStringhe(scanner).trim();
+
+            String sql = "SELECT COUNT(*) FROM Prodotto WHERE codice = ?";
+
+            try (Connection conn = DBContext.connessioneDatabase();
+                    PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                stmt.setString(1, codice);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next() && rs.getInt(1) > 0) {
+                    System.out.print("Errore: Il codice \"" + codice
+                            + "\" esiste già nel database.\nInserisci un codice diverso: ");
+                } else {
+                    return codice; // Il codice è valido, lo restituiamo
+                }
+
+            } catch (SQLException e) {
+                System.out.println("Errore durante la verifica del codice nel database.");
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
