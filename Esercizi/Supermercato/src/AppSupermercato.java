@@ -13,7 +13,7 @@ public class AppSupermercato {
         GestoreProdotti gestore = new GestoreProdotti();
         boolean exitMainMenu = false;
         while (!exitMainMenu) {
-            System.out.println("\n===== MENU SUPERMERCATO =====");
+            System.out.println("\n===== SUPERMERCATO FIGO =====");
             System.out.println("1. Aggiungi un prodotto");
             System.out.println("2. Mostra tutti i prodotti");
             System.out.println("3. Rimuovi un prodotto");
